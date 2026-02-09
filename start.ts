@@ -219,17 +219,23 @@ async function promptAdvanced() {
             name: 'Clean-build Server',
             description: '',
             value: 'clean-build'
-        }, {
+        },
+        revInfo[config.rev]?.webclient ? {
             name: 'Build Web Client',
             description: '',
             value: 'build-web'
-        }, {
+        } : {
+            name: 'Build Web Client (unavailable)',
+            description: 'Not available in this version.',
+            value: ''
+        },
+        {
             name: 'Build Java Client',
             description: '',
             value: 'build-java'
         }, {
             name: 'Change Version',
-            description: '',
+            description: 'THIS OPTION WILL DESTROY YOUR WORKING FOLDER AND CREATE A NEW ONE.',
             value: 'change-version'
         }, {
             name: 'Back',
@@ -267,7 +273,6 @@ async function promptAdvanced() {
         });
 
         fs.copyFileSync('webclient/out/client.js', 'engine/public/client/client.js');
-        fs.copyFileSync('webclient/out/deps.js', 'engine/public/client/deps.js');
     } else if (choice === 'build-java') {
         const command = process.platform === 'win32' ? 'gradlew' : './gradlew';
         child_process.execSync(`${command} build`, {
