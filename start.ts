@@ -96,7 +96,7 @@ async function main() {
         cloneRepo(javaRepo, 'javaclient', revInfo[config.rev]?.clientBranch ?? config.rev);
     }
 
-    if (!fs.existsSync('engine/.env')) {
+    if (!fs.existsSync('engine/.env') && !fs.existsSync('engine/data/config/world.json')) {
         child_process.spawnSync('bun install', {
             shell: true,
             stdio: 'inherit',
